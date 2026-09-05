@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проектник</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Проектник</h1>
+        
+        <!-- Обёртка с градиентной рамкой -->
+        <div class="search-wrapper" id="searchWrapper">
+            
+            <!-- Поисковая строка -->
+            <div class="search-box" id="searchBox">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Опишите свою идею"
+                >
+                <button id="analyzeBtn" class="analyze-btn">Развить идею</button>
+            </div>
+            
+            <!-- Результаты (скрыты по умолчанию) -->
+            <div class="results-box" id="resultsBox"></div>
+        </div>
+        
+        <!-- Карточки проектов (заполняются из archive.json) -->
+        <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
