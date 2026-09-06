@@ -1,7 +1,7 @@
 // /api/chat.js — Vercel Serverless Function
 // Принимает POST от фронтенда, проксирует в OpenRouter с серверным API-ключом.
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
     // Разрешаем только POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
@@ -38,4 +38,4 @@ module.exports = async function handler(req, res) {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
-};
+}
