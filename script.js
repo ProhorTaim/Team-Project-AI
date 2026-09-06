@@ -357,9 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Анализ идеи (двухшаговый) ---
     function analyzeIdea(userIdea) {
-        var ideaCenter = document.querySelector('.idea-center');
-        ideaCenter.classList.add('has-results');
-
         resultsBox.classList.remove('visible');
         resultsBox.style.maxHeight = '0';
         resultsBox.style.opacity = '0';
@@ -389,12 +386,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultsBox.innerHTML = '';
                     resultsBox.style.maxHeight = '3000px';
                     showResults(llmResponse);
+
+                    // Поднимаем заголовок с задержкой после появления ответа
+                    setTimeout(function() {
+                        document.querySelector('.idea-center').classList.add('has-results');
+                    }, 400);
                 })
                 .catch(function(error) {
                     console.log('LLM недоступен:', error);
                     resultsBox.innerHTML = '';
                     resultsBox.style.maxHeight = '3000px';
                     showResults(showNoMatches(userIdea));
+                    setTimeout(function() {
+                        document.querySelector('.idea-center').classList.add('has-results');
+                    }, 400);
+                });
                 });
         }, 400);
     }
