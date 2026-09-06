@@ -120,24 +120,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return html;
     }
 
-    // --- Вызов LLM ---
+    // --- Вызов LLM через серверный прокси ---
     function callLLM(messages) {
-        return fetch(config.apiUrl, {
+        return fetch('/api/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + config.apiKey
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: config.model,
                 messages: messages,
+                model: config.model,
                 max_tokens: config.maxTokens
             })
         })
         .then(function(r) { return r.json(); })
         .then(function(data) {
-            if (data.choices && data.choices[0]) {
-                return data.choices[0].message.content;
+            if (data.content) {
+                return data.content;
+            }
+            if (data.error) {
+                throw new Error(data.error);
             }
             throw new Error('Нет ответа от LLM');
         });

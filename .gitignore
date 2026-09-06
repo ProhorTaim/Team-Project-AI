@@ -2,9 +2,6 @@
 .DS_Store
 Thumbs.db
 
-# Конфиг (содержит API ключ)
-config.json
-
 # Редакторы
 .vscode/
 .idea/
