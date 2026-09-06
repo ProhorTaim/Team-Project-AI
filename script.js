@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Шаг 1: LLM выбирает топ-3 проекта по названиям ---
+    // --- Шаг 1: LLM выбирает релевантные проекты с процентом ---
     function selectTopProjects(userIdea) {
         var titlesList = projects.map(function(p, i) {
             return (i + 1) + '. ' + p.title;
@@ -129,10 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
         var messages = [
             {
                 role: 'system',
-                content: 'Ты помощник, который анализирует проектные идеи. ' +
-                    'Тебе передаётся идея пользователя и список названий проектов из архива. ' +
-                    'Выбери 3 самых релевантных проекта по смыслу. ' +
-                    'Ответь ТОЛЬКО номерами через запятую, например: 1,3,5'
+                content: 'Ты — аналитик проектов. Тебе передаётся идея студента и список названий проектов.\n\n' +
+                    'Твоя задача:\n' +
+                    '1. Оцени каждый проект по шкале 0-100% релевантности идее студента.\n' +
+                    '2. Верни ТОЛЬКО проекты с релевантностью >= 50%.\n' +
+                    '3. Если таких нет — верни "нет".\n\n' +
+                    'Формат ответа (строго):\n' +
+                    '1:85\n' +
+                    '3:62\n' +
+                    'Или просто: нет\n\n' +
+                    'НЕ пиши ничего кроме процентов. Никакого текста.'
             },
             {
                 role: 'user',
@@ -141,22 +147,35 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
 
         return callLLM(messages).then(function(response) {
-            var nums = response.match(/\d+/g);
-            if (!nums) return [];
-            return nums.map(function(n) { return parseInt(n) - 1; })
-                .filter(function(i) { return i >= 0 && i < projects.length; })
-                .slice(0, 3);
+            var minSim = config.minSimilarity || 50;
+            var lines = response.trim().split('\n');
+            var results = [];
+
+            lines.forEach(function(line) {
+                var match = line.match(/(\d+)\s*:\s*(\d+)/);
+                if (match) {
+                    var idx = parseInt(match[1]) - 1;
+                    var similarity = parseInt(match[2]);
+                    if (similarity >= minSim && idx >= 0 && idx < projects.length) {
+                        results.push({ project: projects[idx], similarity: similarity });
+                    }
+                }
+            });
+
+            results.sort(function(a, b) { return b.similarity - a.similarity; });
+            return results.slice(0, 3);
         });
     }
 
-    // --- Шаг 2: LLM анализирует подробно топ-3 проекта ---
-    function analyzeFull(userIdea, topProjects) {
-        var details = topProjects.map(function(p, i) {
-            return (i + 1) + '. ' + p.title + '\n' +
-                '   Амбиция: ' + p.ambition + '\n' +
-                '   Результат: ' + p.result + '\n' +
-                '   Функции: ' + p.features.join(', ') + '\n' +
-                '   Год: ' + p.year;
+    // --- Шаг 2: LLM анализирует подробно отобранные проекты ---
+    function analyzeFull(userIdea, topItems) {
+        var details = topItems.map(function(item, i) {
+            return (i + 1) + '. ' + item.project.title + ' (релевантность: ' + item.similarity + '%)\n' +
+                '   Амбиция: ' + item.project.ambition + '\n' +
+                '   Результат: ' + item.project.result + '\n' +
+                '   Функции: ' + item.project.features.join(', ') + '\n' +
+                '   Год: ' + item.project.year;
+        }).join('\n\n');
         }).join('\n\n');
 
         var messages = [
@@ -238,13 +257,19 @@ document.addEventListener('DOMContentLoaded', function() {
             resultsBox.style.opacity = '1';
 
             selectTopProjects(userIdea)
-                .then(function(indices) {
-                    var topProjects = indices.map(function(i) { return projects[i]; });
-                    if (topProjects.length === 0) throw new Error('Нет релевантных проектов');
+                .then(function(topItems) {
+                    if (topItems.length === 0) {
+                        resultsBox.innerHTML = '<div class="results-content"><p>Не нашёл похожих проектов. Попробуйте переформулировать идею.</p></div>';
+                        resultsBox.style.maxHeight = '3000px';
+                        return;
+                    }
 
-                    resultsBox.innerHTML = '<div class="loading">Анализирую ' + topProjects.length + ' проектов...</div>';
+                    var summary = topItems.map(function(item) {
+                        return item.project.title + ' (' + item.similarity + '%)';
+                    }).join(', ');
+                    resultsBox.innerHTML = '<div class="loading">Нашёл: ' + summary + '. Анализирую...</div>';
 
-                    return analyzeFull(userIdea, topProjects);
+                    return analyzeFull(userIdea, topItems);
                 })
                 .then(function(llmResponse) {
                     resultsBox.innerHTML = '';
