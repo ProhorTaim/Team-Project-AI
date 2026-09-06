@@ -1,7 +1,7 @@
 """
 Локальный сервер для работы с Ollama (qwen3:4b).
 Запуск: python3 server.py
-Доступ: http://localhost:8080
+Открой: http://localhost:8080
 """
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -22,11 +22,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
             messages = data.get("messages", [])
             model = data.get("model", MODEL)
 
-            # Запрос к Ollama
             ollama_payload = json.dumps({
                 "model": model,
                 "messages": messages,
-                "stream": False
+                "stream": False,
+                "think": False
             }).encode("utf-8")
 
             try:
