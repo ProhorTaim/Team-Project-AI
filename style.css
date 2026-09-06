@@ -85,6 +85,9 @@ body {
     font-size: 22px;
     color: #1d1d1f;
     outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .search-input::placeholder {
@@ -343,13 +346,13 @@ body {
     }
 
     .search-input {
-        font-size: 18px;
-        padding: 14px 18px;
+        font-size: 16px;
+        padding: 14px 16px;
     }
 
     .analyze-btn {
-        padding: 14px 20px;
-        font-size: 15px;
+        padding: 14px 16px;
+        font-size: 14px;
         flex-shrink: 0;
     }
 
@@ -391,5 +394,16 @@ body {
 
     .analyze-btn {
         width: 100%;
+    }
+}
+
+/* Маскируем текст кнопки на мобильных */
+@media (max-width: 480px) {
+    .analyze-btn span {
+        display: none;
+    }
+    .analyze-btn::after {
+        content: '→';
+        font-size: 20px;
     }
 }
