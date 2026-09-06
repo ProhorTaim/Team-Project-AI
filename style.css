@@ -127,7 +127,7 @@ body {
 .results-content h3 {
     font-size: 22px;
     font-weight: 600;
-    margin-top: 5px;
+    margin-top: 20px;
     margin-bottom: 12px;
     color: #1d1d1f;
 }
@@ -154,6 +154,47 @@ body {
 .results-content strong {
     font-weight: 600;
     color: #1d1d1f;
+}
+
+/* Карточки проектов внутри ответа */
+.result-card {
+    background: #f5f5f7;
+    border: 1px solid #e5e5ea;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+}
+
+.result-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.result-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d1d1f;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.result-card-badge {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    background: #1d1d1f;
+    padding: 3px 10px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.result-card p {
+    font-size: 15px;
+    color: #6e6e73;
+    margin: 0;
+    line-height: 1.5;
 }
 
 /* Блок результатов — бесшовно под полем ввода */
