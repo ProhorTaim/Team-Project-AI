@@ -9,7 +9,7 @@ import json
 import urllib.request
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
-MODEL = "qwen3:4b"
+MODEL = "llama3.2:3b"
 
 
 class RequestHandler(SimpleHTTPRequestHandler):
@@ -26,7 +26,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 "model": model,
                 "messages": messages,
                 "stream": False,
-                "think": False
+                "think": False,
+                "options": {
+                    "num_predict": 250,
+                    "temperature": 0.3
+                }
             }).encode("utf-8")
 
             try:
