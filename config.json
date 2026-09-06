@@ -1,5 +1,5 @@
 {
-    "model": "minimax/minimax-m3:free",
+    "model": "openrouter/free",
     "maxTokens": 1500,
     "minSimilarity": 50
 }
