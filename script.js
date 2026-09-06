@@ -236,15 +236,38 @@ document.addEventListener('DOMContentLoaded', function() {
         return callLLM(messages);
     }
 
-    // --- Fallback когда нет релевантных проектов ---
+    // --- Шаг 2б: LLM анализирует новую идею без проектов из архива ---
+    function analyzeNewIdea(userIdea) {
+        var systemForNew = 'Ты — эксперт по проектной деятельности университета.\n\n' +
+            'Студент предложил идею, которой нет в архиве проектов.\n' +
+            'Оцени её потенциал и дай рекомендации.\n\n' +
+            'ПРАВИЛА:\n' +
+            '- Если идея звучит бессмысленно или как оскорбление — ответь коротко: «Идея не сформулирована. Попробуйте описать проблему, которую решает ваш проект.»\n' +
+            '- Если идея интересная и инновационная — напиши что-то вроде: «Такой проект ещё не реализован. Вот как можно развить идею:»\n' +
+            '- Дай 2-3 конкретных шага для развития.\n' +
+            '- Предложи возможные функции.\n\n' +
+            'ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО чистым HTML без markdown!\n' +
+            'Используй теги: <h3>, <ul>, <li>, <p>, <strong>.\n\n' +
+            'Структура:\n' +
+            '<h3>Оценка идеи</h3>\n' +
+            '<p>1-2 предложения.</p>\n\n' +
+            '<h3>Рекомендации</h3>\n' +
+            '<ul><li>конкретный шаг</li></ul>\n\n' +
+            '<h3>Возможные функции</h3>\n' +
+            '<ul><li>функция</li></ul>';
+
+        var messages = [
+            { role: 'system', content: systemForNew },
+            { role: 'user', content: 'Идея: ' + userIdea }
+        ];
+
+        return callLLM(messages);
+    }
+
+    // --- Fallback когда LLM недоступен ---
     function showNoMatches(userIdea) {
-        var text = '**Такой идеи в архиве пока нет**\n\n' +
-            'Это не значит, что она плохая — возможно, вы придумали что-то новое.\n\n' +
-            '**Что делать дальше:**\n' +
-            '- Сформулируйте проблему, которую решает ваш проект\n' +
-            '- Определите, кому это нужно\n' +
-            '- Подумайте, как это будет работать\n\n' +
-            'Потом возвращайтесь — и я помогу сравнить с появившимися проектами.';
+        var text = '**Не удалось проанализировать**\n\n' +
+            'Сервис временно недоступен. Попробуйте позже или переформулируйте идею.';
         return text;
     }
 
@@ -295,10 +318,8 @@ document.addEventListener('DOMContentLoaded', function() {
             selectTopProjects(userIdea)
                 .then(function(topItems) {
                     if (topItems.length === 0) {
-                        resultsBox.innerHTML = '';
-                        resultsBox.style.maxHeight = '3000px';
-                        showResults(showNoMatches(userIdea));
-                        return;
+                        resultsBox.innerHTML = '<div class="loading">Таких проектов в архиве нет. Анализирую идею...</div>';
+                        return analyzeNewIdea(userIdea);
                     }
 
                     var summary = topItems.map(function(item) {
