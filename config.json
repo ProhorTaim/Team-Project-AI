@@ -1,5 +1,5 @@
 {
-    "model": "openrouter/free",
+    "model": "qwen3:4b",
     "maxTokens": 1500,
     "minSimilarity": 50
 }

@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return html;
     }
 
-    // --- Вызов LLM через серверный прокси ---
+    // --- Вызов LLM через локальный сервер ---
     function callLLM(messages) {
-        return fetch('/api/chat', {
+        return fetch('http://localhost:8080/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
