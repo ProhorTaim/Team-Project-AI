@@ -41,15 +41,38 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderCards(list) {
         var grid = document.getElementById('cardsGrid');
         grid.innerHTML = '';
-        list.forEach(function(p) {
+        list.forEach(function(p, i) {
+            var colorIndex = i % 6;
             var card = document.createElement('div');
             card.className = 'card';
-            card.innerHTML = '<div class="card-inner">' +
-                '<span class="card-title">' + p.title + '</span>' +
-                '<span class="card-year">' + p.year + '</span>' +
+            card.innerHTML =
+                '<div class="card-header card-header-' + colorIndex + '">' +
+                    '<span class="card-icon">📋</span>' +
+                '</div>' +
+                '<div class="card-body">' +
+                    '<div class="card-title">' + p.title + '</div>' +
+                    '<div class="card-meta">' +
+                        '<div class="card-meta-row">' +
+                            '<span class="card-meta-label">Амбиция:</span> ' +
+                            '<span class="card-meta-value">' + truncate(p.ambition, 80) + '</span>' +
+                        '</div>' +
+                        '<div class="card-meta-row">' +
+                            '<span class="card-meta-label">Функции:</span> ' +
+                            '<span class="card-meta-value">' + p.features.slice(0, 3).join(', ') + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="card-footer">' +
+                    '<span class="card-year">' + p.year + '</span>' +
+                    '<span class="card-team">Команда ' + p.team + '</span>' +
                 '</div>';
             grid.appendChild(card);
         });
+    }
+
+    function truncate(text, max) {
+        if (!text) return '';
+        return text.length > max ? text.substring(0, max) + '…' : text;
     }
 
     // --- Проверка: похоже ли на проектную идею ---
