@@ -176,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 '   Функции: ' + item.project.features.join(', ') + '\n' +
                 '   Год: ' + item.project.year;
         }).join('\n\n');
-        }).join('\n\n');
 
         var messages = [
             { role: 'system', content: systemPrompt },
