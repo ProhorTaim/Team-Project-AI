@@ -86,6 +86,8 @@ body {
     align-items: center;
     justify-content: center;
     min-height: calc(100vh - 80px);
+    transition: justify-content 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                padding-top 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .idea-center.has-results {

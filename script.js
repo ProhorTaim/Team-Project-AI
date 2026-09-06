@@ -357,6 +357,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Анализ идеи (двухшаговый) ---
     function analyzeIdea(userIdea) {
+        // Возвращаем в центр перед новым запросом
+        document.querySelector('.idea-center').classList.remove('has-results');
+
         resultsBox.classList.remove('visible');
         resultsBox.style.maxHeight = '0';
         resultsBox.style.opacity = '0';
@@ -387,10 +390,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultsBox.style.maxHeight = '3000px';
                     showResults(llmResponse);
 
-                    // Поднимаем заголовок с задержкой после появления ответа
+                    // Плавно поднимаем через небольшую задержку
                     setTimeout(function() {
                         document.querySelector('.idea-center').classList.add('has-results');
-                    }, 400);
+                    }, 300);
                 })
                 .catch(function(error) {
                     console.log('LLM недоступен:', error);
@@ -399,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     showResults(showNoMatches(userIdea));
                     setTimeout(function() {
                         document.querySelector('.idea-center').classList.add('has-results');
-                    }, 400);
+                    }, 300);
                 });
         }, 400);
     }
