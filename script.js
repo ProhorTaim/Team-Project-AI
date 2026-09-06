@@ -279,15 +279,40 @@ document.addEventListener('DOMContentLoaded', function() {
         contentDiv.className = 'results-content';
         contentDiv.innerHTML = html;
 
-        // Собираем все result-card в сетку
-        var cards = contentDiv.querySelectorAll('.result-card');
-        if (cards.length > 0) {
+        // Собираем ВСЕ result-card в одну сетку
+        var allCards = contentDiv.querySelectorAll('.result-card');
+        if (allCards.length > 0) {
+            // Удаляем пустые <p> рядом с карточками
+            contentDiv.querySelectorAll('p').forEach(function(p) {
+                if (p.textContent.trim() === '' && p.querySelector('.result-card')) {
+                    p.remove();
+                }
+            });
+
+            // Создаём сетку
             var grid = document.createElement('div');
             grid.className = 'result-cards-grid';
-            cards[0].parentNode.insertBefore(grid, cards[0]);
-            cards.forEach(function(card) {
+
+            // Перемещаем все карточки в сетку
+            allCards.forEach(function(card) {
                 grid.appendChild(card);
             });
+
+            // Вставляем сетку перед первым h3 после заголовка "Похожие проекты"
+            var h3s = contentDiv.querySelectorAll('h3');
+            var insertBefore = null;
+            for (var i = 0; i < h3s.length; i++) {
+                if (h3s[i].textContent.indexOf('Похожие') !== -1) {
+                    insertBefore = h3s[i].nextElementSibling;
+                    break;
+                }
+            }
+
+            if (insertBefore) {
+                contentDiv.insertBefore(grid, insertBefore);
+            } else {
+                contentDiv.insertBefore(grid, contentDiv.firstChild.nextSibling);
+            }
         }
 
         // Разбиваем на элементы для анимации
