@@ -159,9 +159,9 @@ body {
 /* Карточки проектов внутри ответа */
 .result-cards-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 16px;
+    margin: 0 0 16px 0;
 }
 
 .result-card {
@@ -169,74 +169,37 @@ body {
     border: 1px solid #e5e5ea;
     border-radius: 12px;
     padding: 16px;
-    min-width: 0;
+    overflow: hidden;
 }
 
 .result-card-header {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     gap: 8px;
     margin-bottom: 8px;
 }
 
 .result-card-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #1d1d1f;
     line-height: 1.3;
+    flex: 1;
 }
 
 .result-card-badge {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
-    color: #ffffff;
+    color: #fff;
     background: #1d1d1f;
     padding: 2px 8px;
     border-radius: 10px;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .result-card p {
-    font-size: 13px;
-    color: #6e6e73;
-    margin: 0;
-    line-height: 1.5;
-}
-
-@media (max-width: 500px) {
-    .result-cards-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.result-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.result-card-title {
     font-size: 14px;
-    font-weight: 600;
-    color: #1d1d1f;
-    line-height: 1.3;
-}
-
-.result-card-badge {
-    font-size: 11px;
-    font-weight: 600;
-    color: #ffffff;
-    background: #1d1d1f;
-    padding: 2px 8px;
-    border-radius: 10px;
-    white-space: nowrap;
-}
-
-.result-card p {
-    font-size: 13px;
     color: #6e6e73;
     margin: 0;
     line-height: 1.5;
