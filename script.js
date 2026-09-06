@@ -274,8 +274,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Анимация результатов ---
     function showResults(text) {
         var html = convertToHTML(text);
+
+        // Оборачиваем одиночные result-card в сетку
         var temp = document.createElement('div');
         temp.innerHTML = html;
+        var cards = temp.querySelectorAll('.result-card');
+        if (cards.length > 0) {
+            var firstCard = cards[0];
+            if (firstCard.parentElement.className !== 'result-cards-grid') {
+                var grid = document.createElement('div');
+                grid.className = 'result-cards-grid';
+                firstCard.parentElement.insertBefore(grid, firstCard);
+                cards.forEach(function(card) {
+                    grid.appendChild(card);
+                });
+            }
+        }
+        html = temp.innerHTML;
+
         var nodes = [];
         temp.childNodes.forEach(function(node) {
             if (node.nodeType === 1) nodes.push(node.outerHTML);
