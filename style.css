@@ -120,6 +120,7 @@ body {
     animation: glowRotate 4s ease infinite;
     padding: 3px;
     transition: transform 0.3s ease;
+    overflow: hidden;
 }
 
 @keyframes glowRotate {
@@ -308,8 +309,10 @@ body {
     font-size: 18px;
     color: #86868b;
     text-align: center;
-    padding: 20px 0;
+    padding: 20px;
     animation: pulse 1.5s ease-in-out infinite;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 @keyframes pulse {
