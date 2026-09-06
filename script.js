@@ -1,8 +1,29 @@
 // ============================================
-// JavaScript для приложения "Проектник"
+// JavaScript для приложения "Team Project AI"
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // --- Навигация по страницам ---
+    var sidebarLinks = document.querySelectorAll('.sidebar-link');
+    var pages = document.querySelectorAll('.page');
+
+    sidebarLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetPage = this.getAttribute('data-page');
+
+            sidebarLinks.forEach(function(l) { l.classList.remove('active'); });
+            this.classList.add('active');
+
+            pages.forEach(function(p) { p.classList.remove('page-active'); });
+            document.getElementById('page' + capitalize(targetPage)).classList.add('page-active');
+        });
+    });
+
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
     var searchInput = document.getElementById('searchInput');
     var analyzeBtn = document.getElementById('analyzeBtn');
@@ -336,6 +357,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Анализ идеи (двухшаговый) ---
     function analyzeIdea(userIdea) {
+        var ideaCenter = document.querySelector('.idea-center');
+        ideaCenter.classList.add('has-results');
+
         resultsBox.classList.remove('visible');
         resultsBox.style.maxHeight = '0';
         resultsBox.style.opacity = '0';

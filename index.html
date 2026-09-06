@@ -7,32 +7,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">Team Project AI</h1>
-        
-        <!-- Обёртка с градиентной рамкой -->
-        <div class="search-wrapper" id="searchWrapper">
-            
-            <!-- Поисковая строка -->
-            <div class="search-box" id="searchBox">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="search-input" 
-                    placeholder="Опишите свою идею"
-                >
-                <button id="analyzeBtn" class="analyze-btn"><span>Развить идею</span></button>
-            </div>
-            
-            <!-- Результаты (скрыты по умолчанию) -->
-            <div class="results-box" id="resultsBox"></div>
+    <!-- Сайдбар -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span>Team Project</span>
         </div>
-        
-        <!-- Карточки проектов -->
-        <div class="section-label">Проекты из архива университета</div>
-        <div class="cards-grid" id="cardsGrid"></div>
-    </div>
-    
+        <a href="#" class="sidebar-link active" data-page="idea">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
+            </svg>
+            <span>Развить идею</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="archive">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+            </svg>
+            <span>Архив проектов</span>
+        </a>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main">
+        <!-- Страница "Развить идею" -->
+        <div class="page page-active" id="pageIdea">
+            <div class="idea-center">
+                <h1 class="title">Team Project AI</h1>
+                <div class="search-wrapper" id="searchWrapper">
+                    <div class="search-box" id="searchBox">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Опишите свою идею">
+                        <button id="analyzeBtn" class="analyze-btn"><span>Развить идею</span></button>
+                    </div>
+                    <div class="results-box" id="resultsBox"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница "Архив проектов" -->
+        <div class="page" id="pageArchive">
+            <div class="archive-header">
+                <h1 class="archive-title">Архив проектов</h1>
+                <div class="section-label">Проекты из архива университета</div>
+            </div>
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>

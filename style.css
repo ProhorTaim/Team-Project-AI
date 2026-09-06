@@ -10,16 +10,88 @@ body {
     background: #ffffff;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    padding: 60px 20px;
 }
 
-.container {
-    max-width: 900px;
-    width: 100%;
+/* === Сайдбар === */
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #fafafa;
+    border-right: 1px solid #e5e5ea;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    margin-bottom: 24px;
+    color: #1d1d1f;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #6e6e73;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: #f0f0f5;
+    color: #1d1d1f;
+}
+
+.sidebar-link.active {
+    background: #1d1d1f;
+    color: #ffffff;
+}
+
+/* === Основной контент === */
+.main {
+    flex: 1;
+    margin-left: 240px;
+    min-height: 100vh;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.page-active {
+    display: block;
+}
+
+/* === Страница "Развить идею" === */
+.idea-center {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.idea-center.has-results {
+    justify-content: flex-start;
+    padding-top: 40px;
 }
 
 .title {
@@ -28,6 +100,7 @@ body {
     color: #1d1d1f;
     margin-bottom: 40px;
     letter-spacing: -0.5px;
+    transition: all 0.4s ease;
 }
 
 /* Обёртка — градиентная рамка */
@@ -35,7 +108,6 @@ body {
     position: relative;
     width: 100%;
     max-width: 700px;
-    margin-bottom: 50px;
     border-radius: 23px;
     background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe);
     background-size: 300% 300%;
@@ -48,7 +120,7 @@ body {
     50% { background-position: 100% 50%; }
 }
 
-/* Внутренний фон обёртки — оставляем 3px для градиента */
+/* Внутренний фон обёртки */
 .search-wrapper::after {
     content: '';
     position: absolute;
@@ -58,7 +130,6 @@ body {
     z-index: 0;
 }
 
-/* Все дочерние элементы поверх фона */
 .search-box,
 .results-box {
     position: relative;
@@ -156,7 +227,7 @@ body {
     color: #1d1d1f;
 }
 
-/* Сетка карточек проектов в ответе — строго 2x2 */
+/* Сетка карточек проектов в ответе */
 .result-cards-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
@@ -209,13 +280,7 @@ body {
     line-height: 1.4;
 }
 
-@media (max-width: 500px) {
-    .result-cards-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* Блок результатов — бесшовно под полем ввода */
+/* Блок результатов */
 .results-box {
     padding: 0;
     max-height: 0;
@@ -244,27 +309,33 @@ body {
     50% { opacity: 0.5; }
 }
 
+/* === Страница "Архив проектов" === */
+.archive-header {
+    margin-bottom: 32px;
+}
+
+.archive-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 12px;
+}
+
+.section-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #86868b;
+}
+
 /* Сетка карточек */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    width: 100%;
     animation: fadeSlideIn 0.6s ease;
-    margin-top: 40px;
 }
 
-/* Заголовок секции */
-.section-label {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 500;
-    color: #86868b;
-    margin-bottom: 8px;
-    padding-left: 4px;
-}
-
-/* Карточка проекта — стиль как на оригинальном сайте */
+/* Карточка проекта */
 .card {
     background: #ffffff;
     border: 1px solid #e5e5ea;
@@ -279,7 +350,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Шапка карточки — градиент-заглушка вместо фото */
 .card-header {
     width: 100%;
     height: 180px;
@@ -307,7 +377,6 @@ body {
     background: linear-gradient(to top, #ffffff, transparent);
 }
 
-/* Цветовые схемы для шапок */
 .card-header-0 { background: linear-gradient(135deg, #1a73e8 0%, #4fc3f7 100%); color: #1a73e8; }
 .card-header-1 { background: linear-gradient(135deg, #7c4dff 0%, #b388ff 100%); color: #7c4dff; }
 .card-header-2 { background: linear-gradient(135deg, #00897b 0%, #80cbc4 100%); color: #00897b; }
@@ -315,7 +384,6 @@ body {
 .card-header-4 { background: linear-gradient(135deg, #c2185b 0%, #f48fb1 100%); color: #c2185b; }
 .card-header-5 { background: linear-gradient(135deg, #039be5 0%, #81d4fa 100%); color: #039be5; }
 
-/* Иконка в шапке */
 .card-icon {
     position: absolute;
     top: 50%;
@@ -326,12 +394,10 @@ body {
     z-index: 1;
 }
 
-/* Тело карточки */
 .card-body {
     padding: 16px 18px 18px;
 }
 
-/* Название проекта */
 .card-title {
     font-size: 15px;
     font-weight: 600;
@@ -344,7 +410,6 @@ body {
     overflow: hidden;
 }
 
-/* Мета-информация */
 .card-meta {
     display: flex;
     flex-direction: column;
@@ -366,7 +431,6 @@ body {
     font-weight: 400;
 }
 
-/* Год и команда — в одну строку */
 .card-footer {
     display: flex;
     justify-content: space-between;
@@ -389,13 +453,48 @@ body {
 }
 
 @keyframes fadeSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Адаптив === */
+@media (max-width: 1024px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding: 16px 8px;
+    }
+
+    .sidebar-logo span,
+    .sidebar-link span {
+        display: none;
+    }
+
+    .sidebar-logo {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .sidebar-link {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .main {
+        margin-left: 60px;
+    }
+
+    .page {
+        padding: 24px 16px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -427,10 +526,6 @@ body {
         margin-left: 15px;
     }
 
-    .cards-grid {
-        grid-template-columns: 1fr;
-    }
-
     .card-header {
         height: 140px;
     }
@@ -440,7 +535,12 @@ body {
     }
 }
 
-/* Очень маленькие экраны */
+@media (max-width: 500px) {
+    .result-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 @media (max-width: 380px) {
     .search-box {
         flex-wrap: wrap;
@@ -456,7 +556,6 @@ body {
     }
 }
 
-/* Маскируем текст кнопки на мобильных */
 @media (max-width: 480px) {
     .analyze-btn span {
         display: none;
