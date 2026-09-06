@@ -401,7 +401,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelector('.idea-center').classList.add('has-results');
                     }, 400);
                 });
-                });
         }, 400);
     }
 
