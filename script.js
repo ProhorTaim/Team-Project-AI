@@ -77,14 +77,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Проверка: похоже ли на проектную идею ---
     function isProjectIdea(text) {
-        var lower = text.toLowerCase();
+        var lower = text.toLowerCase().trim();
         var minLen = triggers.minLength || 5;
+
+        // Слишком короткий
         if (lower.length < minLen) return false;
 
+        // Приветствия и вопросы
         var allTriggers = [].concat(triggers.greetings || [], triggers.questions || []);
         for (var i = 0; i < allTriggers.length; i++) {
             if (lower === allTriggers[i] || lower.indexOf(allTriggers[i]) === 0) return false;
         }
+
+        // Бессмысленные слова
+        var nonsense = triggers.nonsense || [];
+        var words = lower.split(/\s+/);
+        for (var j = 0; j < words.length; j++) {
+            if (nonsense.indexOf(words[j]) !== -1) return false;
+        }
+
+        // Если одно слово без ключевых слов проекта — пропускаем
+        var projectKeywords = triggers.projectKeywords || [];
+        if (words.length === 1) {
+            var hasKeyword = false;
+            for (var k = 0; k < projectKeywords.length; k++) {
+                if (words[0].indexOf(projectKeywords[k]) !== -1) {
+                    hasKeyword = true;
+                    break;
+                }
+            }
+            if (!hasKeyword) return false;
+        }
+
         return true;
     }
 
@@ -212,26 +236,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return callLLM(messages);
     }
 
-    // --- Fallback без LLM ---
-    function formatWithoutLLM(userIdea, topProjects) {
-        var result = '**Похожие проекты**\n\n';
-        topProjects.forEach(function(p) {
-            result += '• ' + p.title + ' — ' + p.ambition + '\n\n';
-        });
-
-        result += '**Что уже реализовано**\n\n';
-        var allFeatures = [];
-        topProjects.forEach(function(p) {
-            p.features.forEach(function(f) {
-                if (allFeatures.indexOf(f) === -1) allFeatures.push(f);
-            });
-        });
-        allFeatures.forEach(function(f) { result += '• ' + f + '\n'; });
-
-        result += '\n**Рекомендации**\n\n';
-        result += '• Изучите найденные проекты, чтобы избежать дублирования\n';
-        result += '• Определите, чем ваша идея отличается от существующих\n';
-        return result;
+    // --- Fallback когда нет релевантных проектов ---
+    function showNoMatches(userIdea) {
+        var text = '**Не нашёл похожих проектов**\n\n' +
+            'Возможно, ваша идея ещё не сформулирована достаточно ясно.\n\n' +
+            '**Попробуйте:**\n' +
+            '- Описать проблему, которую решает ваш проект\n' +
+            '- Указать целевую аудиторию\n' +
+            '- Назвать ключевую функцию или технологию\n\n' +
+            '**Примеры_good_идей:**\n' +
+            '- Сервис для автоматической проверки лабораторных работ по программированию\n' +
+            '- Мобильное приложение для изучения языков с ИИ-произношением\n' +
+            '- Платформа для управления волонтёрскими проектами\n';
+        return text;
     }
 
     // --- Анимация результатов ---
@@ -281,8 +298,9 @@ document.addEventListener('DOMContentLoaded', function() {
             selectTopProjects(userIdea)
                 .then(function(topItems) {
                     if (topItems.length === 0) {
-                        resultsBox.innerHTML = '<div class="results-content"><p>Не нашёл похожих проектов. Попробуйте переформулировать идею.</p></div>';
+                        resultsBox.innerHTML = '';
                         resultsBox.style.maxHeight = '3000px';
+                        showResults(showNoMatches(userIdea));
                         return;
                     }
 
@@ -294,6 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return analyzeFull(userIdea, topItems);
                 })
                 .then(function(llmResponse) {
+                    if (!llmResponse) return;
                     resultsBox.innerHTML = '';
                     resultsBox.style.maxHeight = '3000px';
                     showResults(llmResponse);
@@ -302,8 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('LLM недоступен:', error);
                     resultsBox.innerHTML = '';
                     resultsBox.style.maxHeight = '3000px';
-                    var fallback = formatWithoutLLM(userIdea, projects.slice(0, 3));
-                    showResults(fallback);
+                    showResults(showNoMatches(userIdea));
                 });
         }, 400);
     }
