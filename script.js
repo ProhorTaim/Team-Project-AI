@@ -275,44 +275,39 @@ document.addEventListener('DOMContentLoaded', function() {
     function showResults(text) {
         var html = convertToHTML(text);
 
-        // Оборачиваем одиночные result-card в сетку
-        var temp = document.createElement('div');
-        temp.innerHTML = html;
-        var cards = temp.querySelectorAll('.result-card');
-        if (cards.length > 0) {
-            var firstCard = cards[0];
-            if (firstCard.parentElement.className !== 'result-cards-grid') {
-                var grid = document.createElement('div');
-                grid.className = 'result-cards-grid';
-                firstCard.parentElement.insertBefore(grid, firstCard);
-                cards.forEach(function(card) {
-                    grid.appendChild(card);
-                });
-            }
-        }
-        html = temp.innerHTML;
-
-        var nodes = [];
-        temp.childNodes.forEach(function(node) {
-            if (node.nodeType === 1) nodes.push(node.outerHTML);
-        });
-
         var contentDiv = document.createElement('div');
         contentDiv.className = 'results-content';
+        contentDiv.innerHTML = html;
+
+        // Собираем все result-card в сетку
+        var cards = contentDiv.querySelectorAll('.result-card');
+        if (cards.length > 0) {
+            var grid = document.createElement('div');
+            grid.className = 'result-cards-grid';
+            cards[0].parentNode.insertBefore(grid, cards[0]);
+            cards.forEach(function(card) {
+                grid.appendChild(card);
+            });
+        }
+
+        // Разбиваем на элементы для анимации
+        var nodes = [];
+        contentDiv.childNodes.forEach(function(node) {
+            if (node.nodeType === 1) nodes.push(node);
+        });
+
         resultsBox.appendChild(contentDiv);
 
-        nodes.forEach(function(html, i) {
+        nodes.forEach(function(node, i) {
+            node.style.opacity = '0';
+            node.style.transform = 'translateY(20px) translateX(15px)';
+            node.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
+
             setTimeout(function() {
-                var el = document.createElement('div');
-                el.innerHTML = html;
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px) translateX(15px)';
-                el.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
-                contentDiv.appendChild(el);
                 requestAnimationFrame(function() {
                     requestAnimationFrame(function() {
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0) translateX(0)';
+                        node.style.opacity = '1';
+                        node.style.transform = 'translateY(0) translateX(0)';
                     });
                 });
             }, i * 120);
