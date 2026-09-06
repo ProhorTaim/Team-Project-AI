@@ -279,39 +279,34 @@ document.addEventListener('DOMContentLoaded', function() {
         contentDiv.className = 'results-content';
         contentDiv.innerHTML = html;
 
+        // Удаляем пустые элементы
+        contentDiv.querySelectorAll('p, div').forEach(function(el) {
+            if (el.textContent.trim() === '' && !el.querySelector('.result-card')) {
+                el.remove();
+            }
+        });
+
         // Собираем ВСЕ result-card в одну сетку
         var allCards = contentDiv.querySelectorAll('.result-card');
         if (allCards.length > 0) {
-            // Удаляем пустые <p> рядом с карточками
-            contentDiv.querySelectorAll('p').forEach(function(p) {
-                if (p.textContent.trim() === '' && p.querySelector('.result-card')) {
-                    p.remove();
-                }
-            });
-
             // Создаём сетку
             var grid = document.createElement('div');
             grid.className = 'result-cards-grid';
 
-            // Перемещаем все карточки в сетку
+            // Перемещаем только непустые карточки
             allCards.forEach(function(card) {
-                grid.appendChild(card);
+                if (card.textContent.trim() !== '') {
+                    grid.appendChild(card);
+                }
             });
 
-            // Вставляем сетку перед первым h3 после заголовка "Похожие проекты"
+            // Вставляем сетку после h3 "Похожие проекты"
             var h3s = contentDiv.querySelectorAll('h3');
-            var insertBefore = null;
             for (var i = 0; i < h3s.length; i++) {
                 if (h3s[i].textContent.indexOf('Похожие') !== -1) {
-                    insertBefore = h3s[i].nextElementSibling;
+                    h3s[i].insertAdjacentElement('afterend', grid);
                     break;
                 }
-            }
-
-            if (insertBefore) {
-                contentDiv.insertBefore(grid, insertBefore);
-            } else {
-                contentDiv.insertBefore(grid, contentDiv.firstChild.nextSibling);
             }
         }
 

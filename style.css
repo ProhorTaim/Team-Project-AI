@@ -160,6 +160,7 @@ body {
 .result-cards-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
+    grid-auto-rows: auto !important;
     gap: 10px !important;
     margin: 8px 0 16px 0 !important;
     width: 100% !important;
