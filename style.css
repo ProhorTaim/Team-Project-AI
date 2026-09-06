@@ -73,10 +73,12 @@ body {
     display: flex;
     gap: 10px;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
 }
 
 .search-input {
     flex: 1;
+    min-width: 0;
     border: none;
     background: transparent;
     padding: 18px 24px;
@@ -346,8 +348,9 @@ body {
     }
 
     .analyze-btn {
-        padding: 14px 24px;
+        padding: 14px 20px;
         font-size: 15px;
+        flex-shrink: 0;
     }
 
     .results-content h3 {
@@ -372,5 +375,21 @@ body {
 
     .card-title {
         font-size: 14px;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 380px) {
+    .search-box {
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        width: 100%;
+        text-align: center;
+    }
+
+    .analyze-btn {
+        width: 100%;
     }
 }
