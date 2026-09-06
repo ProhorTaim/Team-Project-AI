@@ -157,12 +157,18 @@ body {
 }
 
 /* Карточки проектов внутри ответа */
+.result-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
 .result-card {
     background: #f5f5f7;
     border: 1px solid #e5e5ea;
     border-radius: 12px;
     padding: 16px 18px;
-    margin-bottom: 12px;
 }
 
 .result-card-header {
@@ -173,28 +179,35 @@ body {
 }
 
 .result-card-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #1d1d1f;
     flex: 1;
     margin-right: 10px;
+    line-height: 1.3;
 }
 
 .result-card-badge {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #ffffff;
     background: #1d1d1f;
-    padding: 3px 10px;
-    border-radius: 12px;
+    padding: 3px 8px;
+    border-radius: 10px;
     flex-shrink: 0;
 }
 
 .result-card p {
-    font-size: 15px;
+    font-size: 14px;
     color: #6e6e73;
     margin: 0;
     line-height: 1.5;
+}
+
+@media (max-width: 500px) {
+    .result-cards-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Блок результатов — бесшовно под полем ввода */
