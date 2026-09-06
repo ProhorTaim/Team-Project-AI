@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             resultsBox.innerHTML = '<div class="loading">Ищу похожие проекты...</div>';
             resultsBox.classList.add('visible');
-            resultsBox.style.maxHeight = '100px';
+            resultsBox.style.maxHeight = '500px';
             resultsBox.style.opacity = '1';
 
             selectTopProjects(userIdea)
