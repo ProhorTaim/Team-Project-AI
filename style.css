@@ -3,7 +3,7 @@
 :root[data-theme="light"],
 html[data-theme="light"] {
     --bg: #ffffff;
-    --grid-line: rgba(29, 29, 31, 0.09);
+    --grid-line: rgba(29, 29, 31, 0.05);
     --text-primary: #1d1d1f;
     --text-secondary: #3a3a3c;
     --text-muted: #6e6e73;
