@@ -56,7 +56,6 @@ body {
 /* === Основной контент === */
 .main {
     flex: 1;
-    margin-left: 290px;
     min-height: 100vh;
     overflow-y: auto;
 }
