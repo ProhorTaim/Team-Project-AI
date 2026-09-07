@@ -1,33 +1,52 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Team Project AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- Сайдбар -->
-    <nav class="sidebar">
-        <a href="#" class="sidebar-link active" data-page="idea">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3c0 4.5 1.5 6 6 6-4.5 0-6 1.5-6 6 0-4.5-1.5-6-6-6 4.5 0 6-1.5 6-6z" />
-                <path d="M19 3c0 1.5 0.5 2 2 2-1.5 0-2 0.5-2 2 0-1.5-0.5-2-2-2 1.5 0 2-0.5 2-2z" stroke-width="1.5" />
-                <path d="M5 15c0 1 0.3 1.3 1.3 1.3-1.3 0-1.3 0.3-1.3 1.3 0-1-.3-1.3-1.3-1.3 1.3 0 1.3-.3 1.3-1.3z"
-                    stroke-width="1" />
-            </svg>
-            <span>Развить идею</span>
-        </a>
-        <a href="#" class="sidebar-link" data-page="archive">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
-            </svg>
-            <span>Архив проектов</span>
-        </a>
-    </nav>
+    <header class="topbar">
+        <a href="#" class="topbar-brand" data-page="idea">Team Project AI</a>
+        <nav class="topbar-nav">
+            <a href="#" class="topbar-link active" data-page="idea">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3c0 4.5 1.5 6 6 6-4.5 0-6 1.5-6 6 0-4.5-1.5-6-6-6 4.5 0 6-1.5 6-6z" />
+                </svg>
+                <span>Развить идею</span>
+            </a>
+            <a href="#" class="topbar-link" data-page="archive">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+                </svg>
+                <span>Архив проектов</span>
+            </a>
+        </nav>
+        <div class="topbar-right">
+            <button id="themeToggle" class="theme-switch" role="switch" aria-checked="false"
+                aria-label="Переключить тему" title="Светлая / Тёмная тема">
+                <span class="switch-icon switch-sun" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                    </svg>
+                </span>
+                <span class="switch-knob" aria-hidden="true"></span>
+                <span class="switch-icon switch-moon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </header>
 
     <!-- Основной контент -->
     <main class="main">
@@ -51,8 +70,9 @@
                             <input type="text" id="searchInput" class="search-input" placeholder="Опишите свою идею">
                             <button id="analyzeBtn" class="analyze-btn"><span>Развить идею</span></button>
                         </div>
-                        <div class="results-box" id="resultsBox"></div>
                     </div>
+                    <div class="idea-hint" id="ideaHint" role="alert"></div>
+                    <div class="results-flow" id="resultsBox"></div>
                 </div>
             </div>
         </div>
@@ -63,10 +83,11 @@
                 <h1 class="archive-title">Архив проектов</h1>
                 <div class="section-label">Проекты из архива университета</div>
             </div>
-            <div class="cards-grid" id="cardsGrid"></div>
+            <div class="cards-grid" id="cardsGrid"><div class="archive-empty">Загрузка проектов…</div></div>
         </div>
     </main>
 
+    <script src="projects-fallback.js"></script>
     <script src="script.js"></script>
 </body>
 
