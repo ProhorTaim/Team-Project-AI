@@ -1,5 +1,5 @@
 {
     "model": "openrouter/free",
-    "maxTokens": 1500,
+    "maxTokens": 2000,
     "minSimilarity": 50
 }
