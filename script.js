@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var config = {};
     var triggers = {};
     var systemPrompt = '';
+    var filterPrompt = '';
 
     // --- Загрузка всех данных ---
     fetch('config.json')
@@ -45,10 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(function(d) { triggers = d; })
         .catch(function(e) { console.error('triggers.json:', e); });
 
-    fetch('prompt.md')
+    fetch('prompts/system.md')
         .then(function(r) { return r.text(); })
         .then(function(d) { systemPrompt = d; })
-        .catch(function(e) { console.error('prompt.md:', e); });
+        .catch(function(e) { console.error('prompts/system.md:', e); });
+
+    fetch('prompts/filter.md')
+        .then(function(r) { return r.text(); })
+        .then(function(d) { filterPrompt = d; })
+        .catch(function(e) { console.error('prompts/filter.md:', e); });
 
     fetch('projects.json')
         .then(function(r) { return r.json(); })
@@ -197,16 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var messages = [
             {
                 role: 'system',
-                content: 'Ты — аналитик проектов. Тебе передаётся идея студента и список названий проектов.\n\n' +
-                    'Твоя задача:\n' +
-                    '1. Оцени каждый проект по шкале 0-100% релевантности идее студента.\n' +
-                    '2. Верни ТОЛЬКО проекты с релевантностью >= 50%.\n' +
-                    '3. Если таких нет — верни "нет".\n\n' +
-                    'Формат ответа (строго):\n' +
-                    '1:85\n' +
-                    '3:62\n' +
-                    'Или просто: нет\n\n' +
-                    'НЕ пиши ничего кроме процентов. Никакого текста.'
+                content: filterPrompt
             },
             {
                 role: 'user',
