@@ -234,13 +234,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Шаг 2: LLM анализирует подробно отобранные проекты ---
     function analyzeFull(userIdea, topItems) {
-        var details = topItems.map(function(item, i) {
-            return (i + 1) + '. ' + item.project.title + ' (релевантность: ' + item.similarity + '%)\n' +
-                '   Амбиция: ' + item.project.ambition + '\n' +
-                '   Результат: ' + item.project.result + '\n' +
-                '   Функции: ' + item.project.features.join(', ') + '\n' +
-                '   Год: ' + item.project.year;
-        }).join('\n\n');
+        var details = '';
+        if (topItems.length > 0) {
+            details = topItems.map(function(item, i) {
+                return (i + 1) + '. ' + item.project.title + ' (релевантность: ' + item.similarity + '%)\n' +
+                    '   Амбиция: ' + item.project.ambition + '\n' +
+                    '   Результат: ' + item.project.result + '\n' +
+                    '   Функции: ' + item.project.features.join(', ') + '\n' +
+                    '   Год: ' + item.project.year;
+            }).join('\n\n');
+        } else {
+            details = 'нет';
+        }
 
         var messages = [
             { role: 'system', content: systemPrompt },
@@ -249,34 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 content: 'Идея пользователя:\n' + userIdea + '\n\n' +
                     'Релевантные проекты из архива:\n' + details
             }
-        ];
-
-        return callLLM(messages);
-    }
-
-    // --- Шаг 2б: LLM анализирует новую идею без проектов из архива ---
-    function analyzeNewIdea(userIdea) {
-        var systemForNew = 'Ты — эксперт по проектной деятельности университета.\n\n' +
-            'Студент предложил идею, которой нет в архиве проектов.\n' +
-            'Оцени её потенциал и дай рекомендации.\n\n' +
-            'ПРАВИЛА:\n' +
-            '- Если идея звучит бессмысленно или как оскорбление — ответь коротко: «Идея не сформулирована. Попробуйте описать проблему, которую решает ваш проект.»\n' +
-            '- Если идея интересная и инновационная — напиши что-то вроде: «Такой проект ещё не реализован. Вот как можно развить идею:»\n' +
-            '- Дай 2-3 конкретных шага для развития.\n' +
-            '- Предложи возможные функции.\n\n' +
-            'ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО чистым HTML без markdown!\n' +
-            'Используй теги: <h3>, <ul>, <li>, <p>, <strong>.\n\n' +
-            'Структура:\n' +
-            '<h3>Оценка идеи</h3>\n' +
-            '<p>1-2 предложения.</p>\n\n' +
-            '<h3>Рекомендации</h3>\n' +
-            '<ul><li>конкретный шаг</li></ul>\n\n' +
-            '<h3>Возможные функции</h3>\n' +
-            '<ul><li>функция</li></ul>';
-
-        var messages = [
-            { role: 'system', content: systemForNew },
-            { role: 'user', content: 'Идея: ' + userIdea }
         ];
 
         return callLLM(messages);
@@ -370,8 +347,8 @@ document.addEventListener('DOMContentLoaded', function() {
             selectTopProjects(userIdea)
                 .then(function(topItems) {
                     if (topItems.length === 0) {
-                        resultsBox.innerHTML = '<div class="loading">Таких проектов в архиве нет. Анализирую идею...</div>';
-                        return analyzeNewIdea(userIdea);
+                        resultsBox.innerHTML = '<div class="loading">Похожих проектов в архиве нет. Анализирую идею...</div>';
+                        return analyzeFull(userIdea, []);
                     }
 
                     var summary = topItems.map(function(item) {
