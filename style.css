@@ -15,10 +15,12 @@ body {
 /* === Сайдбар === */
 .sidebar {
     width: 240px;
-    min-height: 100vh;
-    background: #fafafa;
-    border-right: 1px solid #e5e5ea;
-    padding: 24px 16px;
+    background: #fafafa7d;
+    backdrop-filter: blur(10px);
+    border: 1px solid #e5e5ea;
+    border-radius: 18px;
+    padding: 8px;
+    margin: 10px 25px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -26,17 +28,6 @@ body {
     top: 0;
     left: 0;
     z-index: 100;
-}
-
-.sidebar-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    margin-bottom: 24px;
-    color: #1d1d1f;
-    font-size: 17px;
-    font-weight: 600;
 }
 
 .sidebar-link {
@@ -65,7 +56,7 @@ body {
 /* === Основной контент === */
 .main {
     flex: 1;
-    margin-left: 240px;
+    margin-left: 290px;
     min-height: 100vh;
     overflow-y: auto;
 }
@@ -73,7 +64,7 @@ body {
 .page {
     display: none;
     min-height: 100vh;
-    padding: 40px;
+    padding: 25px;
 }
 
 .page-active {
@@ -324,6 +315,7 @@ body {
 
 /* === Страница "Архив проектов" === */
 .archive-header {
+    margin-left: 250px;
     margin-bottom: 32px;
 }
 
@@ -479,41 +471,64 @@ body {
 
 @media (max-width: 768px) {
     .sidebar {
-        width: 60px;
-        padding: 16px 8px;
-    }
-
-    .sidebar-logo span,
-    .sidebar-link span {
-        display: none;
-    }
-
-    .sidebar-logo {
+        width: auto;
+        flex-direction: row;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
         justify-content: center;
-        padding: 8px;
+        gap: 4px;
+        backdrop-filter: blur(20px);
+        background: rgba(250, 250, 250, 0.9);
     }
 
     .sidebar-link {
-        justify-content: center;
-        padding: 12px;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 16px;
+        font-size: 11px;
+    }
+
+    .sidebar-link span {
+        display: block;
     }
 
     .main {
-        margin-left: 60px;
+        margin-left: 0;
+        padding-bottom: 80px;
     }
 
     .page {
-        padding: 24px 16px;
+        padding: 20px 16px;
     }
 
     .cards-grid {
         grid-template-columns: 1fr;
     }
+
+    .archive-header {
+        margin-bottom: 20px;
+    }
+
+    .archive-title {
+        font-size: 24px;
+    }
+
+    .section-label {
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 600px) {
     .title {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .search-input {
