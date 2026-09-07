@@ -1,5 +1,5 @@
 {
     "model": "llama3.2:3b",
-    "maxTokens": 1500,
+    "maxTokens": 2000,
     "minSimilarity": 50
 }

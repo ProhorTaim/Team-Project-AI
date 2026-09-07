@@ -28,7 +28,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 "stream": False,
                 "think": False,
                 "options": {
-                    "num_predict": 250,
+                    "num_predict": 1500,
                     "temperature": 0.3
                 }
             }).encode("utf-8")
