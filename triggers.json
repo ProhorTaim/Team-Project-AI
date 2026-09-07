@@ -71,6 +71,6 @@
         "оптимизировать",
         "автоматизировать"
     ],
-    "minLength": 5,
+    "minLength": 15,
     "minWordsForNonsense": 2
 }
