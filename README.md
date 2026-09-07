@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-  <img src="https://img.shields.io/badge/downloads-0-green" alt="Downloads">
+  <img src="https://img.shields.io/github/stars/coffee50/Team-Project-AI?style=social" alt="GitHub Stars">
   <img src="https://img.shields.io/badge/license-MIT-orange" alt="License">
   <a href="https://team-project-ai.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-brightgreen" alt="Live Demo"></a>
 </p>
