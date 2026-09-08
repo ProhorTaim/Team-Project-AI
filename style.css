@@ -319,7 +319,6 @@ input[type="range"]::-moz-range-thumb:hover {
 .page {
     display: none;
     min-height: calc(100vh - 64px);
-    padding: 25px;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
@@ -335,7 +334,7 @@ input[type="range"]::-moz-range-thumb:hover {
     justify-content: flex-start;
     text-align: center;
     min-height: calc(100vh - 64px);
-    padding: 18vh 20px 48px;
+    padding: 28vh 20px 48px;
     transition: padding 0.35s ease;
 }
 
@@ -695,11 +694,11 @@ html[data-theme="dark"] .result-card-badge { color: #e8fdf0; }
     html[data-theme="dark"] .switch-knob { transform: translateX(44px); }
 
     .main { padding-top: 70px; }
-    .page { padding: 20px 16px; }
+    .page { padding: 0px 16px; min-height: calc(100vh - 89px); }
     .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .archive-title { font-size: 24px; }
     .section-label { font-size: 13px; }
-    .idea-center { min-height: calc(100vh - 70px); padding: 10vh 8px 32px; }
+    .idea-center { min-height: calc(100vh - 89px); padding: 20vh 8px 32px; }
     .idea-center.has-results { padding-top: 24px; }
 }
 
